@@ -33,8 +33,8 @@ def accessibility_metrics(y_true: np.ndarray, y_score: np.ndarray, thresholds: n
 
     return {
         "auc": auc,
-        "survival_auc": float(np.trapz(survival, thresholds)),
+        "survival_auc": float(np.trapezoid(survival, thresholds)),
         "mean_positive_score": float(scores[positives].mean()) if positives.any() else np.nan,
         "mean_negative_score": float(scores[negatives].mean()) if negatives.any() else np.nan,
-        "false_access_auc": float(np.trapz(false_access, thresholds)),
+        "false_access_auc": float(np.trapezoid(false_access, thresholds)),
     }
