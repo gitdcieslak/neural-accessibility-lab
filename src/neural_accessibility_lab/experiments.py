@@ -7,12 +7,19 @@ from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
+try:
+    import torch
+except ModuleNotFoundError:  # pragma: no cover - exercised only without optional runtime deps
+    torch = None
+
 from neural_accessibility_lab.metrics import accessibility_metrics, hidden_hellinger_metrics, representation_metrics
 from neural_accessibility_lab.models import SmallMLP
 from neural_accessibility_lab.result import EpochState, ExperimentResult
 
 
 def _positive_scores(logits) -> np.ndarray:
+    if torch is None:
+        raise ModuleNotFoundError("_positive_scores requires torch. Install dependencies with `pip install -e .`.")
     if logits.shape[1] == 1:
         return torch.sigmoid(logits[:, 0]).detach().cpu().numpy()
     return torch.softmax(logits, dim=1)[:, 1].detach().cpu().numpy()
@@ -33,8 +40,10 @@ def run_mlp_accessibility_experiment(
 ) -> ExperimentResult:
     """Train ``SmallMLP`` and collect accessibility/representation metrics per epoch."""
 
+    if torch is None:
+        raise ModuleNotFoundError("run_mlp_accessibility_experiment requires torch. Install dependencies with `pip install -e .`.")
+
     try:
-        import torch
         from torch import nn
         from torch.utils.data import DataLoader, TensorDataset
     except ModuleNotFoundError as exc:
