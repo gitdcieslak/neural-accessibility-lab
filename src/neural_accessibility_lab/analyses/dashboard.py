@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import matplotlib.pyplot as plt
-
 from neural_accessibility_lab.metrics import add_delta_columns
 
 
@@ -14,6 +12,11 @@ def build_drift_dashboard_frame(result):
 
 def plot_drift_dashboard(result_or_frame, lr=None):
     """Plot core accessibility dynamics from an ExperimentResult or metric frame."""
+
+    try:
+        import matplotlib.pyplot as plt
+    except ModuleNotFoundError as exc:
+        raise ModuleNotFoundError("plot_drift_dashboard requires matplotlib. Install with `pip install 'neural-accessibility-lab[ml]'`.") from exc
 
     frame = build_drift_dashboard_frame(result_or_frame) if hasattr(result_or_frame, "to_frame") else result_or_frame
     metrics = [m for m in ["val_auc", "survival_auc", "delta_survival_auc", "centroid_distance", "hidden_hellinger_mean"] if m in frame.columns]

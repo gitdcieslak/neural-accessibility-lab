@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import numpy as np
-from sklearn.metrics import roc_auc_score
 
 
 def _binary_scores(y_score: np.ndarray) -> np.ndarray:
@@ -15,6 +14,11 @@ def _binary_scores(y_score: np.ndarray) -> np.ndarray:
 
 def accessibility_metrics(y_true: np.ndarray, y_score: np.ndarray, thresholds: np.ndarray | None = None) -> dict[str, float]:
     """Compute threshold-survival style accessibility metrics for binary labels."""
+
+    try:
+        from sklearn.metrics import roc_auc_score
+    except ModuleNotFoundError as exc:
+        raise ModuleNotFoundError("accessibility_metrics requires scikit-learn. Install with `pip install 'neural-accessibility-lab[ml]'`.") from exc
 
     y = np.asarray(y_true).astype(int)
     scores = _binary_scores(y_score)

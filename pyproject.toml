@@ -4,16 +4,26 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "neural-accessibility-lab"
-version = "0.1.0"
+version = "0.1.1"
 description = "Notebook-friendly experiment harness for neural-network accessibility dynamics."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "matplotlib>=3.7",
     "numpy>=1.24",
     "pandas>=2.0",
-    "scikit-learn>=1.3",
+]
+
+[project.optional-dependencies]
+ml = [
     "torch>=2.0",
+    "scikit-learn>=1.3",
+    "matplotlib>=3.7",
+]
+dev = [
+    "pytest",
+]
+all = [
+    "neural-accessibility-lab[ml,dev]",
 ]
 
 [tool.setuptools]

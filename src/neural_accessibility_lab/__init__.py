@@ -1,6 +1,8 @@
 """Neural Accessibility Lab."""
 
-__all__ = ["EpochState", "ExperimentResult", "SmallMLP", "load_oil", "run_mlp_accessibility_experiment"]
+__version__ = "0.1.1"
+
+__all__ = ["EpochState", "ExperimentResult", "SmallMLP", "__version__", "load_oil", "run_mlp_accessibility_experiment"]
 
 
 def __getattr__(name: str):

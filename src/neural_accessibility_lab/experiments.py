@@ -3,9 +3,6 @@ from __future__ import annotations
 from copy import deepcopy
 
 import numpy as np
-from sklearn.metrics import roc_auc_score
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
 
 try:
     import torch
@@ -44,10 +41,16 @@ def run_mlp_accessibility_experiment(
         raise ModuleNotFoundError("run_mlp_accessibility_experiment requires torch. Install dependencies with `pip install -e .`.")
 
     try:
+        from sklearn.metrics import roc_auc_score
+        from sklearn.model_selection import train_test_split
+        from sklearn.preprocessing import StandardScaler
         from torch import nn
         from torch.utils.data import DataLoader, TensorDataset
     except ModuleNotFoundError as exc:
-        raise ModuleNotFoundError("run_mlp_accessibility_experiment requires torch. Install dependencies with `pip install -e .`.") from exc
+        raise ModuleNotFoundError(
+            "run_mlp_accessibility_experiment requires ML dependencies. "
+            "Install with `pip install 'neural-accessibility-lab[ml]'`."
+        ) from exc
 
     X = np.asarray(X, dtype=np.float32)
     y = np.asarray(y).astype(np.int64)

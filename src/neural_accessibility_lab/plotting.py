@@ -1,12 +1,15 @@
 from __future__ import annotations
 
-import matplotlib.pyplot as plt
-
 from neural_accessibility_lab.analyses.dashboard import plot_drift_dashboard
 
 
 def plot_metric(result_or_frame, metric: str, ax=None, **plot_kwargs):
     """Plot one metric over epochs from an ExperimentResult or DataFrame."""
+
+    try:
+        import matplotlib.pyplot as plt
+    except ModuleNotFoundError as exc:
+        raise ModuleNotFoundError("plot_metric requires matplotlib. Install with `pip install 'neural-accessibility-lab[ml]'`.") from exc
 
     df = result_or_frame.to_frame() if hasattr(result_or_frame, "to_frame") else result_or_frame
     if ax is None:

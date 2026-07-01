@@ -1,10 +1,13 @@
 from __future__ import annotations
 
-import matplotlib.pyplot as plt
-
 
 def plot_phase_portrait(frame, x, y, lr=None, title=None):
     """Plot one metric against another across epochs."""
+
+    try:
+        import matplotlib.pyplot as plt
+    except ModuleNotFoundError as exc:
+        raise ModuleNotFoundError("plot_phase_portrait requires matplotlib. Install with `pip install 'neural-accessibility-lab[ml]'`.") from exc
 
     fig, ax = plt.subplots(figsize=(6, 5))
     ax.plot(frame[x], frame[y], marker="o")

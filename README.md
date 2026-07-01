@@ -4,13 +4,30 @@ Reusable, notebook-friendly experiment harness for studying neural-network acces
 
 ## Quickstart
 
+Recommended Colab development install:
+
 ```bash
-pip install -e .
+pip install --no-deps --force-reinstall --no-cache-dir git+https://github.com/gitdcieslak/neural-accessibility-lab.git
+```
+
+Full install for a fresh local environment:
+
+```bash
+pip install "neural-accessibility-lab[ml]"
+```
+
+Editable local dev install:
+
+```bash
+pip install -e ".[ml,dev]"
 ```
 
 ```python
+import neural_accessibility_lab as nalab
 from neural_accessibility_lab.datasets import load_oil
 from neural_accessibility_lab.experiments import run_mlp_accessibility_experiment
+
+print(nalab.__version__)
 
 X, y = load_oil()
 
